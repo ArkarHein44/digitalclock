@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Digital Clock</title>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap');
+
+            @font-face{
+                font-family: digital;
+                src: url(./DigitalDismay.otf);
+            }
+
+            body{
+                /* centering clock */
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                /* background color to black */
+                background-color: black;
+            }
+
+
+            .clock{
+                /* set clock size*/
+                width: 800px;
+                height: 300px;
+
+                /* design section  */
+                background-color: rgb(0, 0, 0);
+                border: 10px double gold;
+                border-radius: 70px;
+                /* box-shadow: 10px 10px 10px rgba(185, 183, 183, 0.89); */
+
+                /* centering display, background display and ampm */
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            /* display and background-display as two layers duplicate */
+            .clock h1{
+                font-family: digital ;
+                font-size: 200px;
+                position: absolute;
+            }
+
+
+            /* coloring digital clock number */
+            .background-display{
+                color: rgba(128, 128, 128, 0.377);
+            }
+            .display{
+                color: rgb(6, 255, 6);
+            }
+
+
+            .clock span{
+                /* place ampm */
+                position: relative;
+                left: 35%;
+                top: -35%;
+                
+                /* ampm font and color */
+                font-family: 'Orbitron', sans-serif;
+                color: rgb(6, 255, 6);
+                font-size: 50px;
+            }
+        </style>
+    </head>
+    <body>
+        
+        <div class="clock">
+
+            <span id="ampm">ampm</span>
+
+            <h1 class="background-display">
+                88:88:88 
+            </h1>
+            <h1 id="display" class="display">
+                01:45:30 
+            </h1>
+
+        </div>
+
+        <script>
+
+            function clock(){
+                //function for starting with zero
+                function formatNumberWithZero(num) {
+                    return num.toString().padStart(2, '0');
+                };
+
+                // get id for ampm.
+                const callampm = document.getElementById("ampm");
+
+                // get id for display.
+                const getdisplay = document.getElementById("display");
+
+                // get current date time.
+                const date = new Date();                
+
+                // get hour, minute and second.
+                let gethours = date.getHours();                
+                let getminutes = date.getMinutes();
+                let getseconds = date.getSeconds();
+
+                // looping for ampm and 12 hours format
+                let getampm;
+                switch(gethours > 12){
+                    case true:
+                        getampm = "PM";
+                        gethours = gethours-12;
+                        break;
+                    case false:
+                        getampm = "AM"
+                        break;
+                };               
+
+                // change hour, minute and second starting zero
+                let formathour = formatNumberWithZero(gethours);
+                let formatminute = formatNumberWithZero(getminutes);
+                let formatsecond = formatNumberWithZero(getseconds);                
+
+                // text design for digital clock
+                let setclock = `${formathour}:${formatminute}:${formatsecond}`;
+                let setampm = `${getampm}`;
+                // console.log(setclock);
+                // console.log(setampm);
+
+                // sent to html document
+                getdisplay.textContent = setclock;
+                callampm.textContent = setampm;
+            };
+
+            // for default value change
+            clock();
+
+            //for callback function every 1s 
+            setInterval(clock,1000);           
+        </script>
+    </body>
+</html>
